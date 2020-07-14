@@ -1,4 +1,5 @@
 const express = require('express');
+const api = require('./routes/api');
 require('dotenv').config();
 
 const app = express();
@@ -9,9 +10,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.send('Welcome to Express');
-});
+app.use('/api', api);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
