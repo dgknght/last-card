@@ -1,7 +1,5 @@
 const expect = require('chai').expect;
-const Card = require('../models/card');
-
-console.log(Card);
+const Card = require('../models/card').Card;
 
 describe('Card', () => {
   describe('.getValue()', () => {
