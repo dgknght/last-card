@@ -27,5 +27,11 @@ describe('Card', () => {
       expect(card.getColor()).to.equal("blue");
     });
   });
+
+  // when value is 0, color is required
+  // when value is 1, color is required
+  // ...
+  // when value is 'wild', color is ignored
+  // when value is '+4', color is ignored
 });
 
