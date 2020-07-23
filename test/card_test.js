@@ -4,7 +4,7 @@ const Card = require('../models/card').Card;
 describe('Card', () => {
   describe('.getValue()', () => {
     // 0-9, +2, +4, wild, skip, reverse
-    [0, 1, 2, 3, "+2"].forEach(v => {
+    [0, 1, 2, 3, 'drawTwo'].forEach(v => {
       it(`can be ${v}`, () => {
         const card = new Card(v);
         expect(card.getValue()).to.equal(v);
@@ -15,7 +15,7 @@ describe('Card', () => {
       it(`cannot be ${v}`, () => {
         expect(() => {
           const card = new Card(v);
-        }).to.throw(Error, 'value must be 0-9, "+2", "+4", "wild", "skip", or "reverse"');
+        }).to.throw(Error, 'value must be 0-9, "drawTwo", "wildDrawFour", "wild", "skip", or "reverse"');
       });
     });
   });
@@ -34,4 +34,3 @@ describe('Card', () => {
   // when value is 'wild', color is ignored
   // when value is '+4', color is ignored
 });
-
