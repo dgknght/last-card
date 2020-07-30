@@ -22,7 +22,5 @@ describe('Game', () => {
     it('leaves correct number of cards in deck', () => {
       expect(game.getDeck().getCardCount()).to.equal(93); // 108 - (7 + 7 + 1) = 93
     });
-
-
   });
 });

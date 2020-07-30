@@ -25,7 +25,6 @@ const Game = function(players) {
   this.getDeck = function() {
     return this._deck;
   };
-
 };
 
 module.exports = Game;
