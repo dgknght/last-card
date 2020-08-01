@@ -1,9 +1,9 @@
 const Deck = require('./deck');
 
-const Game = function(players) {
+const Game = function(players, deck) {
 
   this._players = players;
-  this._deck = new Deck();
+  this._deck = deck || new Deck();
   this._discardPile = [];
 
   this.start = function() {
