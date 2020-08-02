@@ -28,6 +28,32 @@ describe('Card', () => {
     });
   });
 
+  describe('.equals(card)', () => {
+    it('returns true if both cards have the same value and color', () => {
+      const c1 = new Card(0, 'blue');
+      const c2 = new Card(0, 'blue');
+      expect(c1.equals(c2)).to.be.true;
+    });
+
+    it('returns false if both cards have different values', () => {
+      const c1 = new Card(0, 'blue');
+      const c2 = new Card(1, 'blue');
+      expect(c1.equals(c2)).to.be.false;
+    });
+
+    it('returns false if both cards have different colors', () => {
+      const c1 = new Card(0, 'blue');
+      const c2 = new Card(0, 'red');
+      expect(c1.equals(c2)).to.be.false;
+    });
+
+    it('returns false if the arguement is not a card', () => {
+      const c1 = new Card(0, 'blue');
+      const c2 = new Object();
+      expect(c1.equals(c2)).to.be.false;
+    });
+  });
+
   // when value is 0, color is required
   // when value is 1, color is required
   // ...

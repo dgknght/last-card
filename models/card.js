@@ -18,6 +18,11 @@ const Card = function(value, color) {
   this.getColor = () => {
     return this._color;
   };
+
+  this.equals = (card) => {
+    if (card.getValue === undefined || card.getColor === undefined) return false;
+    return this._value === card.getValue() && this._color === card.getColor();
+  };
 };
 
 module.exports = {
