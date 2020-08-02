@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const Game = require('../models/game');
+const Card = require('../models/card').Card;
 const Player = require('../models/player');
 
 describe('Game', () => {
@@ -21,6 +22,10 @@ describe('Game', () => {
 
     it('leaves correct number of cards in deck', () => {
       expect(game.getDeck().getCardCount()).to.equal(93); // 108 - (7 + 7 + 1) = 93
+    });
+
+    it('sets the current player', () => {
+      expect(game.getCurrentPlayer()).to.equal(player1);
     });
   });
 
@@ -44,20 +49,23 @@ describe('Game', () => {
       new Card(4, 'blue'),
       new Card(5, 'blue')
     ]);
-    const game = new Game([player1, player2]);
+    const game = new Game([player1, player2], deck);
     game.start();
     game.playCard(new Card(0, 'blue'));
 
     it('puts selected card on the discard pile', () => {
-      expect(game.getTopDiscard()).to.equal(new Card(0, 'blue'));
+      expect(game.getTopDiscard().equals(new Card(0, 'blue'))).to.be.true;
     });
 
     it("removes selected card from the player's hand", () => {
       expect(game.getPlayers()[0].getCardCount()).to.equal(6);
-      
+    });
+
+    it('advances the current player', () => {
+      expect(game.getCurrentPlayer()).to.equal(player2);
     });
     // TODO: Test for invalid card
-
+    // TODO: Test that the first player goes after the last player
   });
 });
 

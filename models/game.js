@@ -3,6 +3,7 @@ const Deck = require('./deck');
 const Game = function(players, deck) {
 
   this._players = players;
+  this._currentPlayerIndex = 0;
   this._deck = deck || new Deck();
   this._discardPile = [];
 
@@ -18,12 +19,26 @@ const Game = function(players, deck) {
     return this._players;
   };
 
+  this.getCurrentPlayer = function() {
+    return this._players[this._currentPlayerIndex];
+  };
+
   this.getDiscardPile = function() {
     return this._discardPile;
   };
 
   this.getDeck = function() {
     return this._deck;
+  };
+
+  this.playCard = function(card) {
+    this._discardPile.push(card);
+    this.getCurrentPlayer().removeCard(card);
+    this._currentPlayerIndex++;
+  };
+
+  this.getTopDiscard = function() {
+    return this._discardPile[this._discardPile.length - 1];
   };
 };
 
