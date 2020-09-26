@@ -32,9 +32,12 @@ const Game = function(players, deck) {
   };
 
   this.playCard = function(card) {
-    this._discardPile.push(card);
-    this.getCurrentPlayer().removeCard(card);
-    this._currentPlayerIndex++;
+    if (this.getCurrentPlayer().removeCard(card)) {
+      this._discardPile.push(card);
+      this._currentPlayerIndex++;
+    } else {
+      throw new Error('invalid card');
+    }
   };
 
   this.getTopDiscard = function() {
