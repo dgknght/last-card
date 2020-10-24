@@ -11,7 +11,7 @@ export default class FindGame extends Component {
     fetch('/api/games')
       .then(res => res.json())
       .then(data => this.setState({ games: data }))
-      .catch(e => console.log('unable to parse', e));
+      .catch(e => console.error('unable to parse', e));
   }
 
   render() {
@@ -28,7 +28,7 @@ export default class FindGame extends Component {
       content = (
         <ul className="list-group">
           { this.state.games.map(game => (
-            <li key={`game-list-item-${game.id}`} className="list-group-item"><Link to={`/games/${game.id}`}>{game.name}</Link></li>
+            <li key={`game-list-item-${game._id}`} className="list-group-item"><Link to={`/games/${game._id}`}>{game.name}</Link></li>
           )) }
         </ul>
       )
