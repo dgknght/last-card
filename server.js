@@ -1,5 +1,6 @@
 const express = require('express');
 const api = require('./routes/api');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -11,6 +12,15 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', api);
+
+
+// Serve the host page for the app if no other routes match
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, './client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+  });
+}
 
 const port = process.env.PORT || 5050;
 app.listen(port, () => {

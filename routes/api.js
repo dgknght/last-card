@@ -1,24 +1,35 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/games', (req, res, next) => {
-  // Get a list of games
-  res.send('ok. here are some games. enjoy');
+// TODO: Replace this with proper database storage
+const games = [
+  {id: 1, name: 'Game 1'},
+  {id: 2, name: 'Other Game'}
+];
+
+router.get('/games', (req, res) => {
+  res.json(games);
 });
 
-router.post('/games', (req, res, next) => {
-  // Create a game
-  res.send('ok. I have created the game for you.');
+router.get('/games/:id', (req, res) => {
+  const game = games.find(g => g.id == req.params.id);
+  if (game) {
+    res.json(game);
+  } else {
+    res.status(404).json({ message: 'not found' });
+  }
+});
+
+router.post('/games', (req, res) => {
+  res.json({message: 'not implemented'});
 });
 
 router.patch('/games/:id', (req, res, next) => {
-  // Update a game (perform the next step)
-  res.send('ok. The step has been taken. Here is the current state of the game');
+  res.json({message: 'not implemented'});
 });
 
 router.delete('/games/:id', (req, res, next) => {
-  // End a game
-  res.send('ok. The game has been closed.');
+  res.json({message: 'not implemented'});
 });
 
 module.exports = router;
