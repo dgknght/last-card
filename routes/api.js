@@ -83,4 +83,9 @@ router.delete('/games/:id', (req, res, next) => {
   res.json({message: 'not implemented'});
 });
 
+router.use((err, req, res, next) => {
+  console.error('api error', err);
+  res.status(500).json({ error: err.message || err.toString()});
+});
+
 module.exports = router;

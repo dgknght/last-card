@@ -9,14 +9,25 @@ export default class FindGame extends Component {
 
   componentDidMount() {
     fetch('/api/games')
-      .then(res => res.json())
-      .then(data => this.setState({ games: data }))
+      .then(res => {
+        if (res.status === 200) {
+          res.json().then(games => this.setState({ games }));
+        } else {
+          res.json().then(error => this.setState(error));
+        }
+      })
       .catch(e => console.error('unable to parse', e));
   }
 
   render() {
     let content = null;
-    if (this.state.games == null) {
+    if (this.state.error != null) {
+      content = (
+        <div className="alert alert-danger">
+          {this.state.error}
+        </div>
+      );
+    } else if (this.state.games == null) {
       content = (
         <div className="d-flex justify-content-center">
           <div className="spinner-border">
@@ -31,7 +42,7 @@ export default class FindGame extends Component {
             <li key={`game-list-item-${game._id}`} className="list-group-item"><Link to={`/games/${game._id}`}>{game.name}</Link></li>
           )) }
         </ul>
-      )
+      );
     }
     return (
       <div className="row">
