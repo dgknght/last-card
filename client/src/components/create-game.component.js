@@ -7,8 +7,13 @@ export default class CreateGame extends Component {
 
     this.state = { name: '', id: null };
 
+    this.nameInput = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.nameInput.current.focus();
   }
 
   handleChange(event) {
@@ -54,7 +59,7 @@ export default class CreateGame extends Component {
             <h1>Create a game</h1>
             <div className="form-group">
               <label className="control-label" htmlFor="name">Name</label>
-              <input type="text" className="form-control" name="name" id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} required />
+              <input type="text" ref={this.nameInput} className="form-control" name="name" id="name" placeholder="name" value={this.state.name} onChange={this.handleChange} required />
             </div>
             <button className="btn btn-primary" type="submit">Create</button>
           </form>

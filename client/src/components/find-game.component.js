@@ -5,9 +5,11 @@ export default class FindGame extends Component {
   constructor(props) {
     super(props);
     this.state = { games: null };
+
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  componentDidMount() {
+  loadGames() {
     fetch('/api/games')
       .then(res => {
         if (res.status === 200) {
@@ -16,7 +18,16 @@ export default class FindGame extends Component {
           res.json().then(error => this.setState(error));
         }
       })
-      .catch(e => console.error('unable to parse', e));
+  }
+
+  componentDidMount() {
+    this.loadGames();
+  }
+
+
+  handleDelete(game) {
+    fetch(`/api/games/${game._id}`, { method: 'DELETE' })
+      .then(() => this.loadGames())
   }
 
   render() {
@@ -39,7 +50,10 @@ export default class FindGame extends Component {
       content = (
         <ul className="list-group">
           { this.state.games.map(game => (
-            <li key={`game-list-item-${game._id}`} className="list-group-item"><Link to={`/games/${game._id}`}>{game.name}</Link></li>
+            <li key={`game-list-item-${game._id}`} className="list-group-item p-1 d-flex align-items-center">
+              <Link className="ml-1 text-decoration-none" to={`/games/${game._id}`}>{game.name}</Link>
+              <button className="btn btn-link text-decoration-none ml-auto" onClick={() => this.handleDelete(game)}>&times;</button>
+            </li>
           )) }
         </ul>
       );

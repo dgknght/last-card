@@ -42,7 +42,8 @@ router.patch('/games/:id', (req, res, next) => {
 });
 
 router.delete('/games/:id', (req, res, next) => {
-  res.json({message: 'not implemented'});
+  new Games().destroy(req.params.id)
+    .then(r => res.status(204).json())
 });
 
 router.use((err, req, res, next) => {

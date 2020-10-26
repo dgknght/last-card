@@ -37,4 +37,10 @@ module.exports = class Games {
         .then(r => Promise.resolve(r.insertedId));
     });
   }
+
+  async destroy(id) {
+    return this._mongo('games', col => {
+      return col.deleteOne({ _id: ObjectID(id) });
+    });
+  }
 };
