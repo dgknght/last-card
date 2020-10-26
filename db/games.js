@@ -1,7 +1,7 @@
 const { MongoClient, ObjectID } = require('mongodb');
 
-module.exports = {
-  fetchGames: async function() {
+module.exports = class Games {
+  async search() {
     const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
     try {
       await client.connect();
@@ -12,9 +12,9 @@ module.exports = {
     } finally {
       client.close();
     }
-  },
+  }
 
-  findGame: async function(id) {
+  async find(id) {
     const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
     try {
       await client.connect();
@@ -24,15 +24,15 @@ module.exports = {
     } finally {
       client.close();
     }
-  },
+  }
 
-  createGame: async function(game) {
+  async create(game) {
     const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
     try {
       await client.connect();
       const database = client.db(process.env.MONGODB_DATABASE);
       const collection = database.collection('games');
-      const result = await collection.insert(game);
+      const result = await collection.insertOne(game);
       return result.insertedId;
     } finally {
       client.close();

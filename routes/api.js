@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { fetchGames, findGame, createGame } = require('../db/games');
+const Games = require('../db/games');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
 router.get('/games', (req, res) => {
-  fetchGames()
+  new Games().search()
     .then(games => res.json(games))
     .catch(err => {
       console.dir(err);
@@ -15,7 +15,7 @@ router.get('/games', (req, res) => {
 });
 
 router.get('/games/:id', (req, res) => {
-  findGame(req.params.id)
+  new Games().find(req.params.id)
     .then(game => {
       if (game == null) {
         res.status(404).json({ message: 'not found' });
@@ -31,7 +31,7 @@ router.get('/games/:id', (req, res) => {
 
 router.post('/games', (req, res) => {
   const game = req.body;
-  createGame(game).then(id => {
+  new Games().create(game).then(id => {
     game.id = id;
     res.status(201).json(game);
   });
