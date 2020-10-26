@@ -1,19 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { MongoClient, ObjectID } = require('mongodb');
-
-async function fetchGames() {
-  const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
-  try {
-    await client.connect();
-    const database = client.db(process.env.MONGODB_DATABASE);
-    const collection = database.collection('games');
-    const cursor = collection.find({}, { limit: 100 });
-    return await cursor.toArray()
-  } finally {
-    client.close();
-  }
-}
+const { fetchGames, findGame, createGame } = require('../db/games');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -26,18 +13,6 @@ router.get('/games', (req, res) => {
       res.status(500).json({error: err.message})
     });
 });
-
-async function findGame(id) {
-  const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
-  try {
-    await client.connect();
-    const database = client.db(process.env.MONGODB_DATABASE);
-    const collection = database.collection('games');
-    return await collection.findOne({ _id: ObjectID(id) });
-  } finally {
-    client.close();
-  }
-}
 
 router.get('/games/:id', (req, res) => {
   findGame(req.params.id)
@@ -53,19 +28,6 @@ router.get('/games/:id', (req, res) => {
       res.status(500).json({ message: e })
     });
 });
-
-async function createGame(game) {
-  const client = new MongoClient(process.env.MONGODB_URL, { useUnifiedTopology: true });
-  try {
-    await client.connect();
-    const database = client.db(process.env.MONGODB_DATABASE);
-    const collection = database.collection('games');
-    const result = await collection.insert(game);
-    return result.insertedId;
-  } finally {
-    client.close();
-  }
-}
 
 router.post('/games', (req, res) => {
   const game = req.body;
