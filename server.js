@@ -22,6 +22,10 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+if (process.env.MONGODB_URL == null) {
+  console.error('MONGODB_URL must be set');
+}
+
 const port = process.env.PORT || 5050;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

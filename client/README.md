@@ -1,3 +1,13 @@
+# Last Card
+
+This is a web-based implementation of the Uno card game.
+
+## Setup
+
+You'll need to create a find `.env` with the following:
+- MONGODB_URL - The URL to the MongoDB database where the game data is stored.
+- MONGODB_DATABASE - The MongoDB database where the game data is stored.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

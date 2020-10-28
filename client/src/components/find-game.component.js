@@ -5,18 +5,40 @@ export default class FindGame extends Component {
   constructor(props) {
     super(props);
     this.state = { games: null };
+
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  loadGames() {
+    fetch('/api/games')
+      .then(res => {
+        if (res.status === 200) {
+          res.json().then(games => this.setState({ games }));
+        } else {
+          res.json().then(error => this.setState(error));
+        }
+      })
   }
 
   componentDidMount() {
-    fetch('/api/games')
-      .then(res => res.json())
-      .then(data => this.setState({ games: data }))
-      .catch(e => console.log('unable to parse', e));
+    this.loadGames();
+  }
+
+
+  handleDelete(game) {
+    fetch(`/api/games/${game._id}`, { method: 'DELETE' })
+      .then(() => this.loadGames())
   }
 
   render() {
     let content = null;
-    if (this.state.games == null) {
+    if (this.state.error != null) {
+      content = (
+        <div className="alert alert-danger">
+          {this.state.error}
+        </div>
+      );
+    } else if (this.state.games == null) {
       content = (
         <div className="d-flex justify-content-center">
           <div className="spinner-border">
@@ -28,10 +50,13 @@ export default class FindGame extends Component {
       content = (
         <ul className="list-group">
           { this.state.games.map(game => (
-            <li key={`game-list-item-${game.id}`} className="list-group-item"><Link to={`/games/${game.id}`}>{game.name}</Link></li>
+            <li key={`game-list-item-${game._id}`} className="list-group-item p-1 d-flex align-items-center">
+              <Link className="ml-1 text-decoration-none" to={`/games/${game._id}`}>{game.name}</Link>
+              <button className="btn btn-link text-decoration-none ml-auto" onClick={() => this.handleDelete(game)}>&times;</button>
+            </li>
           )) }
         </ul>
-      )
+      );
     }
     return (
       <div className="row">
