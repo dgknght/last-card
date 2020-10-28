@@ -22,26 +22,28 @@ function createNonColorCards() {
   return result;
 }
 
-const Deck = function() {
-  this._cards = createColorCards()
-    .concat(createNonColorCards());
+class Deck {
+  constructor() {
+    this._cards = createColorCards()
+      .concat(createNonColorCards());
+  }
 
-  this.getCardCount = function() {
+  getCardCount() {
     return this._cards.length;
-  };
+  }
 
-  this.getCards = function() {
+  getCards() {
     return this._cards;
-  };
+  }
 
-  this.shuffle = function() {
+  shuffle() {
     this._cards.sort(() => Math.random() - 0.5);
-  };
+  }
 
-  this.deal = function() {
+  deal() {
     const card = this._cards.shift();
     return card;
-  };
-};
+  }
+}
 
 module.exports = Deck;

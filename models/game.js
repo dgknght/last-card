@@ -1,48 +1,49 @@
 const Deck = require('./deck');
 
-const Game = function(players, deck) {
+class Game {
+  constructor(players, deck) {
+    this._players = players;
+    this._currentPlayerIndex = 0;
+    this._deck = deck || new Deck();
+    this._discardPile = [];
+  }
 
-  this._players = players;
-  this._currentPlayerIndex = 0;
-  this._deck = deck || new Deck();
-  this._discardPile = [];
-
-  this.start = function() {
+  start() {
     this._deck.shuffle();
     for (let step = 0; step < 7; step++) {
       this._players.forEach(p => p.drawCard(this._deck.deal()));
     };
     this._discardPile.push(this._deck.deal());
-  };
+  }
 
-  this.getPlayers = function() {
+  getPlayers() {
     return this._players;
-  };
+  }
 
-  this.getCurrentPlayer = function() {
+  getCurrentPlayer() {
     return this._players[this._currentPlayerIndex];
-  };
+  }
 
-  this.getDiscardPile = function() {
+  getDiscardPile() {
     return this._discardPile;
-  };
+  }
 
-  this.getDeck = function() {
+  getDeck() {
     return this._deck;
-  };
+  }
 
-  this.playCard = function(card) {
+  playCard(card) {
     if (this.getCurrentPlayer().removeCard(card)) {
       this._discardPile.push(card);
       this._currentPlayerIndex++;
     } else {
       throw new Error('invalid card');
     }
-  };
+  }
 
-  this.getTopDiscard = function() {
+  getTopDiscard() {
     return this._discardPile[this._discardPile.length - 1];
-  };
-};
+  }
+}
 
 module.exports = Game;

@@ -1,27 +1,27 @@
-const Player = function(name) {
-  this._hand = [];
-  this._name = name;
+class Player {
+  constructor(name) {
+    this._hand = [];
+    this._name = name;
+  }
 
-  this.drawCard = function(card) {
+  drawCard(card) {
     this._hand.push(card);
-  };
+  }
 
-  this.removeCard = function(card) {
+  removeCard(card) {
     const index = this._hand.findIndex(c => c.equals(card));
     if (index == -1) return false;
     this._hand.splice(index, 1);
     return true;
-  };
+  }
 
-  this.getCardCount = function() {
+  getCardCount() {
     return this._hand.length;
-  };
+  }
 
-  this.getName = function() {
+  getName() {
     return this._name;
-  };
-
-  // this.getNameX = () => this._name;
-};
+  }
+}
 
 module.exports = Player;
