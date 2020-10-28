@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
-const Deck = require('../models/deck');
+const { Deck, unserializeDeck } = require('../models/deck');
+const { Card } = require ('../models/card');
 
 describe('Deck', () => {
   it('has 108 cards', () => {
@@ -136,4 +137,31 @@ describe('Deck', () => {
     });
   });
 
+  describe('.serialize()', () => {
+    const deck = new Deck();
+    while(deck.getCardCount() > 1) deck.deal();
+    const serialized = deck.serialize();
+    expect(serialized).to.eql({
+      cards: [{ value: 'wildDrawFour' }]
+    });
+  });
+});
+
+describe('unserializeDeck', () => {
+  it('returns a deck with the correct cards', () => {
+    const serialized = {
+      cards: [
+        new Card(1, 'blue').serialize(),
+        new Card(2, 'green').serialize()
+      ]
+    };
+    const deck = unserializeDeck(serialized);
+    expect(deck.getCardCount()).to.equal(2);
+    const c1 = deck.deal();
+    expect(c1.getValue()).to.equal(1);
+    expect(c1.getColor()).to.eql('blue');
+    const c2 = deck.deal();
+    expect(c2.getValue()).to.equal(2);
+    expect(c2.getColor()).to.eql('green');
+  });
 });

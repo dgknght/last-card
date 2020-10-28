@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Card = require('../models/card').Card;
+const { Card, unserializeCard } = require('../models/card');
 
 describe('Card', () => {
   describe('.getValue()', () => {
@@ -59,4 +59,23 @@ describe('Card', () => {
   // ...
   // when value is 'wild', color is ignored
   // when value is '+4', color is ignored
+
+  describe('serialize', () => {
+    it('returns a simple object with the card properties', () => {
+      const card = new Card(1, 'blue');
+      expect(card.serialize()).to.eql({ color: 'blue', value: 1 });
+    });
+  });
+});
+
+describe('unserializeCard', () => {
+  const card = unserializeCard({ color: 'green', value: 3 });
+
+  it('returns a card with the correct value', () => {
+    expect(card.getValue()).to.equal(3);
+  });
+
+  it('returns a card with the correct color', () => {
+    expect(card.getColor()).to.equal('green');
+  });
 });

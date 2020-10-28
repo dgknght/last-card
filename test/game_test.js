@@ -1,7 +1,8 @@
 const expect = require('chai').expect;
-const Game = require('../models/game');
-const Card = require('../models/card').Card;
-const Player = require('../models/player');
+const { Game, unserializeGame } = require('../models/game');
+const { Card } = require('../models/card');
+const { Player } = require('../models/player');
+const { Deck } = require('../models/deck');
 
 describe('Game', () => {
 
@@ -113,6 +114,61 @@ describe('Game', () => {
     });
 
     // TODO: Test that the first player goes after the last player
+  });
+
+  describe('.serialize', () => {
+    it('returns the internal state of the game', () => {
+      const p1 = new Player('John');
+      const p2 = new Player('Jane');
+      const c1 = new Card(5, 'blue');
+      const c2 = new Card(4, 'yellow');
+      const game = new Game([p1, p2], new Deck([c1, c2]));
+      expect(game.serialize()).to.eql({
+        players: [
+          { name: 'John', hand: [] },
+          { name: 'Jane', hand: [] }
+        ],
+        currentPlayerIndex: 0,
+        deck: {
+          cards: [
+            { value: 5, color: 'blue' },
+            { value: 4, color: 'yellow' }
+          ]
+        }
+      });
+    });
+  });
+});
+
+describe('unserializeGame', () => {
+  const game = unserializeGame({
+    players: [
+      { name: 'John' },
+      { name: 'Jane' }
+    ],
+    currentPlayerIndex: 1,
+    deck: {
+      cards: [
+        { value: 1, color: 'blue' },
+        { value: 2, color: 'yellow' }
+      ]
+    }
+  });
+
+  it('returns a game with the correct players', () => {
+    const names = game.getPlayers().map(p => p.getName());
+    expect(names).to.eql(['John', 'Jane']);
+  });
+
+  it('returns a game with the correct deck', () => {
+    const deck = game.getDeck();
+    const cards = [];
+    while(c = deck.deal()) { cards.push(c); }
+    expect(cards.length).to.equal(2);
+  });
+
+  it('returns a game with the correct current player marker', () => {
+    expect(game.getCurrentPlayer().getName()).to.eql('Jane');
   });
 });
 

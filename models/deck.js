@@ -1,14 +1,14 @@
-const card = require('./card');
+const { Card, unserializeCard, COLORS, COLORED_VALUES } = require('./card');
 
 function createColorCards() {
-  return card.COLORS.flatMap(color => {
-    let result = card.COLORED_VALUES.slice(1).flatMap(value => {
+  return COLORS.flatMap(color => {
+    let result = COLORED_VALUES.slice(1).flatMap(value => {
       return [
-        new card.Card(value, color),
-        new card.Card(value, color)
+        new Card(value, color),
+        new Card(value, color)
       ];
     });
-    result.push(new card.Card(0, color));
+    result.push(new Card(0, color));
     return result;
   });
 }
@@ -16,15 +16,15 @@ function createColorCards() {
 function createNonColorCards() {
   const result = [];
   for (let step = 0; step < 4; step++) {
-    result.push(new card.Card('wild'));
-    result.push(new card.Card('wildDrawFour'));
+    result.push(new Card('wild'));
+    result.push(new Card('wildDrawFour'));
   };
   return result;
 }
 
 class Deck {
-  constructor() {
-    this._cards = createColorCards()
+  constructor(cards) {
+    this._cards = cards || createColorCards()
       .concat(createNonColorCards());
   }
 
@@ -44,6 +44,16 @@ class Deck {
     const card = this._cards.shift();
     return card;
   }
+
+  serialize() {
+    return { cards: this._cards.map(c => c.serialize()) };
+  };
 }
 
-module.exports = Deck;
+function unserializeDeck(obj) {
+  const deck = new Deck();
+  deck._cards = obj.cards.map(unserializeCard);
+  return deck;
+}
+
+module.exports = { Deck, unserializeDeck };

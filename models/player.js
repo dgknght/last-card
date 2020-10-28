@@ -1,3 +1,5 @@
+const { unserializeCard } = require('./card');
+
 class Player {
   constructor(name) {
     this._hand = [];
@@ -22,6 +24,25 @@ class Player {
   getName() {
     return this._name;
   }
+
+  getHand() {
+    return this._hand;
+  }
+
+  serialize() {
+    return {
+      name: this._name,
+      hand: this._hand.map(c => c.serialize())
+    };
+  }
 }
 
-module.exports = Player;
+function unserializePlayer(obj) {
+  const player = new Player(obj.name);
+  if (typeof obj.hand != 'undefined') {
+    player._hand = obj.hand.map(unserializeCard);
+  }
+  return player;
+}
+
+module.exports = { Player, unserializePlayer };

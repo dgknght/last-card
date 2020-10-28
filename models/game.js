@@ -1,4 +1,5 @@
-const Deck = require('./deck');
+const { Deck, unserializeDeck } = require('./deck');
+const { unserializePlayer } = require('./player');
 
 class Game {
   constructor(players, deck) {
@@ -44,6 +45,22 @@ class Game {
   getTopDiscard() {
     return this._discardPile[this._discardPile.length - 1];
   }
+
+  serialize() {
+    return {
+      players: this._players.map(p => p.serialize()),
+      deck: this._deck.serialize(),
+      currentPlayerIndex: this._currentPlayerIndex
+    };
+  }
 }
 
-module.exports = Game;
+function unserializeGame(obj) {
+  const players = obj.players.map(unserializePlayer);
+  const deck = unserializeDeck(obj.deck);
+  const game = new Game(players, deck);
+  game._currentPlayerIndex = obj.currentPlayerIndex;
+  return game;
+}
+
+module.exports = { Game, unserializeGame };

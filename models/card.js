@@ -10,7 +10,7 @@ class Card {
     }
 
     this._value = value;
-    this._color = color;
+    this._color = (arguments.length > 1) ? color : null;
   }
 
   getValue() {
@@ -25,11 +25,26 @@ class Card {
     if (card.getValue === undefined || card.getColor === undefined) return false;
     return this._value === card.getValue() && this._color === card.getColor();
   }
+
+  serialize() {
+    const result = {
+      value: this._value
+    };
+    if (this._color != null) {
+      result.color = this._color;
+    }
+    return result;
+  }
+}
+
+function unserializeCard(obj) {
+  return new Card(obj.value, obj.color);
 }
 
 module.exports = {
   COLORS,
   COLORED_VALUES,
   NON_COLORED_VALUES,
+  unserializeCard,
   Card
 };
