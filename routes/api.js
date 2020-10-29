@@ -37,11 +37,17 @@ router.post('/games', (req, res) => {
   });
 });
 
-router.patch('/games/:id', (req, res, next) => {
+router.patch('/games/:id/join', (req, res) => {
+  new Games()
+    .join(req.params.id, req.body.player)
+    .then(game => res.json(game));
+});
+
+router.patch('/games/:id', (req, res) => {
   res.json({message: 'not implemented'});
 });
 
-router.delete('/games/:id', (req, res, next) => {
+router.delete('/games/:id', (req, res) => {
   new Games().destroy(req.params.id)
     .then(r => res.status(204).json())
 });

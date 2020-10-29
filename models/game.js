@@ -17,6 +17,10 @@ class Game {
     this._discardPile.push(this._deck.deal());
   }
 
+  addPlayer(player) {
+    this._players.push(player);
+  }
+
   getPlayers() {
     return this._players;
   }
@@ -60,6 +64,7 @@ function unserializeGame(obj) {
   const deck = unserializeDeck(obj.deck);
   const game = new Game(players, deck);
   game._currentPlayerIndex = obj.currentPlayerIndex;
+  game._id = obj._id;
   return game;
 }
 

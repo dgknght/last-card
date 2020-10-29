@@ -5,11 +5,16 @@ export default class PlayGame extends Component {
   constructor(props) {
     super(props);
 
-    this.id = props.match.params.id;
+    if (props.match && props.match.params)
+      this.id = props.match.params.id;
+    else
+      this.id = null;
     this.state = { game: null }
   }
 
   componentDidMount() {
+    if (this.id == null) return;
+
     fetch(`/api/games/${this.id}`)
       .then(res => {
         if (res.status === 200) {
