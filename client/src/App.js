@@ -58,11 +58,7 @@ class App extends Component {
           <Route path="/games" exact={true}>
             <FindGame user={this.user} />
           </Route>
-          <Route
-            path="/games/:id"
-            exact={true}
-            children={({ match }) => (<PlayGame match={match} user={this.user} />)}
-            />
+          <Route path="/games/:id" render={({ match }) => <PlayGame match={match} user={this.user} />} />
         </div>
       </Router>
     );

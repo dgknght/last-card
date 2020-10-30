@@ -4,11 +4,7 @@ export default class PlayGame extends Component {
 
   constructor(props) {
     super(props);
-
-    if (props.match && props.match.params)
-      this.id = props.match.params.id;
-    else
-      this.id = null;
+    this.id = props.match.params.id;
     this.state = { game: null }
   }
 
