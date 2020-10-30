@@ -1,5 +1,6 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const { Player } = require('../models/player');
+const { unserializeGame } = require('../models/game');
 
 module.exports = class Games {
   // either _mongo('collection_name', f) or _mongo(f)
@@ -40,17 +41,20 @@ module.exports = class Games {
   }
 
   async join(id, player) {
-    const game = await this.find(id);
+    const data = await this.find(id);
+    const game = unserializeGame(data);
     let players;
     if (typeof player === 'Array') {
       players = player;
     } else {
       players = [player];
     }
-    players.each(p => game.addPlayer(new Player(p)));
-    return this._mongo('games', col => {
+    players.forEach(p => game.addPlayer(new Player(p)));
+
+    await this._mongo('games', col => {
       return col.updateOne({ _id: game._id }, { $set: game.serialize() });
     });
+    return Promise.resolve(game.serialize());
   }
 
   async destroy(id) {

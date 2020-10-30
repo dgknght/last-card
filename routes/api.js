@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Games = require('../db/games');
+const Cookies = require('universal-cookie');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -38,9 +39,11 @@ router.post('/games', (req, res) => {
 });
 
 router.patch('/games/:id/join', (req, res) => {
+  const cookies = new Cookies(req.headers.cookie);
   new Games()
-    .join(req.params.id, req.body.player)
-    .then(game => res.json(game));
+    .join(req.params.id, cookies.get('user'))
+    .then(game => res.json(game))
+    .catch(error => res.status(500).json({ error: error.message }));
 });
 
 router.patch('/games/:id', (req, res) => {

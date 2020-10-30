@@ -75,12 +75,18 @@ class Game {
 }
 
 function unserializeGame(obj) {
-  const players = obj.players.map(unserializePlayer);
-  const deck = unserializeDeck(obj.deck);
-  const game = new Game(players, deck);
-  game._currentPlayerIndex = obj.currentPlayerIndex;
+  const game = new Game();
+
+  if (typeof obj.players !== 'undefined')
+    game._players = obj.players.map(unserializePlayer);
+
+  if (typeof obj.deck !== 'undefined')
+    game._deck = unserializeDeck(obj.deck);
+
+  game._currentPlayerIndex = obj.currentPlayerIndex || 0;
   game._id = obj._id;
   game._status = obj.status;
+
   return game;
 }
 
