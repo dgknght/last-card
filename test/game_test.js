@@ -8,6 +8,31 @@ describe('Game', () => {
 
   it('does not allow duplicate names');
   
+  describe('.addPlayer(player)', () => {
+    const player = new Player('John Doe');
+
+    describe('when the status is "unstarted"', () => {
+      const game = new Game([new Player('Abe'), new Player('Ben')]);
+      it('adds the specified player to the game', () => {
+        game.addPlayer(player);
+        expect(game.getPlayers().map(p => p.getName())).to.include('John Doe');
+      });
+    });
+
+    describe('when the status is "started"', () => {
+      const game = new Game([new Player('Abe'), new Player('Ben')]).start();
+      it('raises an error', () => {
+        expect(() => game.start()).to.throw();
+      });
+      it('does not add the player to the game', () => {
+        try {
+          game.addPlayer(player);
+        } catch {}
+        expect(game.getPlayers().map(p => p.getName())).not.to.include('John Doe');
+      });
+    });
+  });
+
   describe('.start()', () => {
     const player1 = new Player();
     const player2 = new Player();
@@ -30,6 +55,10 @@ describe('Game', () => {
 
     it('sets the current player', () => {
       expect(game.getCurrentPlayer()).to.equal(player1);
+    });
+
+    it('changes the status to "started"', () => {
+      expect(game.getStatus()).to.eql('started');
     });
   });
 
@@ -124,6 +153,7 @@ describe('Game', () => {
       const c2 = new Card(4, 'yellow');
       const game = new Game([p1, p2], new Deck([c1, c2]));
       expect(game.serialize()).to.eql({
+        status: 'unstarted',
         players: [
           { name: 'John', hand: [] },
           { name: 'Jane', hand: [] }
@@ -142,6 +172,7 @@ describe('Game', () => {
 
 describe('unserializeGame', () => {
   const game = unserializeGame({
+    status: 'started',
     players: [
       { name: 'John' },
       { name: 'Jane' }
@@ -153,6 +184,10 @@ describe('unserializeGame', () => {
         { value: 2, color: 'yellow' }
       ]
     }
+  });
+
+  it('returns a game with the correct status', () => {
+    expect(game.getStatus()).to.eql('started');
   });
 
   it('returns a game with the correct players', () => {
