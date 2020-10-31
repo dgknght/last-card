@@ -46,6 +46,13 @@ router.patch('/games/:id/join', (req, res) => {
     .catch(error => res.status(500).json({ error: error.message }));
 });
 
+router.patch('/games/:id/start', (req, res) => {
+  new Games()
+    .start(req.params.id)
+    .then(game => res.json(game))
+    .catch(error => res.status(500).json({ error: error.message }));
+});
+
 router.patch('/games/:id', (req, res) => {
   res.json({message: 'not implemented'});
 });

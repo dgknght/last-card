@@ -51,7 +51,18 @@ module.exports = class Games {
       players = [player];
     }
     players.forEach(p => game.addPlayer(new Player(p)));
+    const serialized = game.serialize();
 
+    await this._mongo('games', col => {
+      return col.updateOne({ _id: game._id }, { $set: serialized });
+    });
+    return Promise.resolve(serialized);
+  }
+
+  async start(id) {
+    const data = await this.find(id);
+    const game = unserializeGame(data);
+    game.start();
     await this._mongo('games', col => {
       return col.updateOne({ _id: game._id }, { $set: game.serialize() });
     });
