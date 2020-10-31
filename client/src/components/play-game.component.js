@@ -64,12 +64,18 @@ export default class PlayGame extends Component {
       );
     }
 
-    return (
-      <div>
-        <h1>Play game {this.state.game.name}</h1>
+    let playerList;
+    if (this.state.game.players) {
+      playerList = (
         <ul>
           {this.state.game.players.map(p => <li key={`player-${p.name}`}>{p.name}</li>)}
         </ul>
+      );
+    }
+    return (
+      <div>
+        <h1>Play game {this.state.game.name}</h1>
+        {playerList}
       </div>
     );
   }
