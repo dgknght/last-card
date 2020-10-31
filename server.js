@@ -12,6 +12,12 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', api);
+app.use('/api/*', (req, res) => {
+
+  console.log('api route not found', req.originalUrl);
+
+  res.status(404).json({ error: 'not found' });
+});
 
 
 // Serve the host page for the app if no other routes match

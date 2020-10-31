@@ -66,6 +66,7 @@ class Game {
 
   serialize() {
     return {
+      name: this._name,
       status: this._status,
       players: this._players.map(p => p.serialize()),
       deck: this._deck.serialize(),
@@ -86,6 +87,7 @@ function unserializeGame(obj) {
   game._currentPlayerIndex = obj.currentPlayerIndex || 0;
   game._id = obj._id;
   game._status = obj.status;
+  game._name = obj.name;
 
   return game;
 }

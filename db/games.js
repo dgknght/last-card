@@ -34,6 +34,7 @@ module.exports = class Games {
   }
 
   async create(game) {
+    game.status = 'unstarted';
     return this._mongo('games', col => {
       return col.insertOne(game)
         .then(r => Promise.resolve(r.insertedId));
