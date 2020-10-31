@@ -154,6 +154,7 @@ describe('Game', () => {
       const game = new Game([p1, p2], new Deck([c1, c2]));
       expect(game.serialize()).to.eql({
         status: 'unstarted',
+        name: '',
         players: [
           { name: 'John', hand: [] },
           { name: 'Jane', hand: [] }

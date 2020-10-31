@@ -4,6 +4,7 @@ const { unserializePlayer } = require('./player');
 class Game {
   constructor(players, deck) {
     this._status = 'unstarted';
+    this._name = '';
     this._players = players || [];
     this._currentPlayerIndex = 0;
     this._deck = deck || new Deck();
