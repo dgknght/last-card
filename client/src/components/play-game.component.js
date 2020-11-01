@@ -50,13 +50,15 @@ export default class GameDetail extends Component {
               <Players game={this.props.game} />
             </div>
             <div className="col">
-              <div className="d-flex">
+              <div className="d-flex justify-content-around">
                 {this.discardElem()}
+                <Card /> {/* This face-down card represents the deck from which additional cards may be drawn */}
               </div>
             </div>
           </div>
-          <div className="row mt-3">
+          <div className="row">
             <div className="col">
+              <hr />
               {this.playerHand()}
             </div>
           </div>
