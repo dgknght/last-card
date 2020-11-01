@@ -1,6 +1,7 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const { Player } = require('../models/player');
 const { unserializeGame } = require('../models/game');
+const { unserializeCard } = require('../models/card');
 
 module.exports = class Games {
   // either _mongo('collection_name', f) or _mongo(f)
@@ -67,6 +68,18 @@ module.exports = class Games {
       return col.updateOne({ _id: game._id }, { $set: game.serialize() });
     });
     return Promise.resolve(game.serialize());
+  }
+
+  async playCard(id, card) {
+    const data = await this.find(id);
+    const game = unserializeGame(data);
+    game.playCard(unserializeCard(card));
+    const serialized = game.serialize();
+
+    await this._mongo('games', col => {
+      return col.updateOne({ _id: game._id }, { $set: serialized });
+    });
+    return Promise.resolve(serialized);
   }
 
   async destroy(id) {

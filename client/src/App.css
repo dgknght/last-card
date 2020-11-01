@@ -6,7 +6,8 @@
   border-radius: 2em;
   padding: 2em;
   background-color: #72b373;
-  filter: drop-shadow(8px 8px 2px #999);
+  filter: drop-shadow(-8px 8px 2px #999);
+  margin-bottom: 4em;
 }
 
 .card-border {
@@ -52,6 +53,18 @@
   font-size: 64px;
 }
 
+.uno-card-drawTwo .card-text {
+  font-size: 64px;
+}
+
+.uno-card-wildDrawFour {
+  background: linear-gradient(red, blue, green, yellow);
+}
+
+.uno-card-wildDrawFour .card-text {
+  font-size: 64px;
+}
+
 .uno-card-red {
   background-color: red;
 }
@@ -71,4 +84,18 @@
 .uno-card.face-down .card-text {
   color: yellow;
   transform: rotate(-20deg);
+}
+
+.card-player {
+  padding: 0.2em;
+  border-radius: 0.2em;
+  border: 1px solid transparent;
+  font-size: 140%;
+  margin: 0;
+}
+
+.card-player.active {
+  border-top: 1px solid #c0edc1;
+  border-right: 1px solid #c0edc1;
+  box-shadow: -4px 4px 2px #3f5440;
 }

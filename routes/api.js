@@ -54,7 +54,10 @@ router.patch('/games/:id/start', (req, res) => {
 });
 
 router.patch('/games/:id', (req, res) => {
-  res.json({message: 'not implemented'});
+  new Games()
+    .playCard(req.params.id, req.body)
+    .then(game => res.json(game))
+    .catch(error => res.status(500).json({ error: error.message }));
 });
 
 router.delete('/games/:id', (req, res) => {
