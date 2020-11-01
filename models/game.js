@@ -1,5 +1,6 @@
 const { Deck, unserializeDeck } = require('./deck');
 const { unserializePlayer } = require('./player');
+const { unserializeCard } = require('./card');
 
 class Game {
   constructor(players, deck) {
@@ -71,7 +72,8 @@ class Game {
       status: this._status,
       players: this._players.map(p => p.serialize()),
       deck: this._deck.serialize(),
-      currentPlayerIndex: this._currentPlayerIndex
+      currentPlayerIndex: this._currentPlayerIndex,
+      discardPile: this._discardPile.map(c => c.serialize())
     };
   }
 }
@@ -84,6 +86,11 @@ function unserializeGame(obj) {
 
   if (typeof obj.deck !== 'undefined')
     game._deck = unserializeDeck(obj.deck);
+
+  if (typeof obj.discardPile !== 'undefined')
+    game._discardPile = obj.discardPile.map(unserializeCard);
+  else
+    game._discardPile = [];
 
   game._currentPlayerIndex = obj.currentPlayerIndex || 0;
   game._id = obj._id;

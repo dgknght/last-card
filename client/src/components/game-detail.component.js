@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PrepareGame from './prepare-game.component';
+import PlayGame from './play-game.component';
 
 export default class GameDetail extends Component {
 
@@ -44,6 +45,8 @@ export default class GameDetail extends Component {
     switch (this.state.game.status) {
       case 'unstarted':
         return <PrepareGame game={this.state.game} user={this.user} onGameChange={this.handleGameChange} onError={this.props.onError} />
+      case 'started':
+        return <PlayGame game={this.state.game} user={this.user} onGameChange={this.handleGameChange} onError={this.props.onError} />
       default:
         return <div>Unknown game status {this.state.game.status}</div>
     }

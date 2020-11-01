@@ -2,37 +2,73 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.table-top {
+  border-radius: 2em;
+  padding: 2em;
+  background-color: #72b373;
+  filter: drop-shadow(8px 8px 2px #999);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card-border {
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 0.5em;
+  padding: 1em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.uno-card {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  height: 240px;
+  width: 160px;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.uno-card .card-text {
+  font-size: 96px;
+  font-weight: bold;
   color: white;
+  text-shadow: black -3px 3px;
 }
 
-.App-link {
-  color: #61dafb;
+.uno-card.face-down {
+  background-color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.face-down .card-text {
+  font-size: 72px;
+  text-shadow: unset;
+}
+
+.uno-card-reverse .card-text {
+  transform: rotate(-45deg);
+  font-size: 48px;
+}
+
+.uno-card-skip .card-text {
+  transform: rotate(-45deg);
+  font-size: 64px;
+}
+
+.uno-card-red {
+  background-color: red;
+}
+
+.uno-card-blue {
+  background-color: blue;
+}
+
+.uno-card-green {
+  background-color: green;
+}
+
+.uno-card-yellow {
+  background-color: #f0ec26;
+}
+
+.uno-card.face-down .card-text {
+  color: yellow;
+  transform: rotate(-20deg);
 }

@@ -165,7 +165,8 @@ describe('Game', () => {
             { value: 5, color: 'blue' },
             { value: 4, color: 'yellow' }
           ]
-        }
+        },
+        discardPile: []
       });
     });
   });
@@ -184,7 +185,10 @@ describe('unserializeGame', () => {
         { value: 1, color: 'blue' },
         { value: 2, color: 'yellow' }
       ]
-    }
+    },
+    discardPile: [
+      { value: 2, color: 'blue' },
+    ]
   });
 
   it('returns a game with the correct status', () => {
@@ -201,6 +205,10 @@ describe('unserializeGame', () => {
     const cards = [];
     while(c = deck.deal()) { cards.push(c); }
     expect(cards.length).to.equal(2);
+  });
+
+  it('returns a game with the correct discard pile', () => {
+    expect(game.getDiscardPile()).to.eql([new Card(2, 'blue')]);
   });
 
   it('returns a game with the correct current player marker', () => {
